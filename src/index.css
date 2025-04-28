@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.clip-bubble {
+  clip-path: ellipse(90% 30% at 50% 50%);
+}
