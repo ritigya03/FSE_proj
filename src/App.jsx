@@ -7,7 +7,7 @@ import './App.css';
 import Architecture from './components/Architecture';
 import Subsystem from './components/subsystem';
 import  Testing from './components/testing';
-import Demo from './components/demo';
+import Demo from './components/Demo';
 
 function App() {
   return (
