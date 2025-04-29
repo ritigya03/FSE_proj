@@ -1,123 +1,114 @@
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
-import React, { useState } from "react";
-import { GoogleMap, LoadScript, Marker, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
-
-const containerStyle = {
-  width: '100%',
-  height: '400px',
-};
-
-const defaultCenter = {
-  lat: 37.7749, // San Francisco
-  lng: -122.4194,
-};
+function ResizeMap() {
+  const map = useMap();
+  useEffect(() => {
+    map.invalidateSize();
+  }, [map]);
+  return null;
+}
 
 const Demo = () => {
-  const [sourceLatLong, setSourceLatLong] = useState("");
-  const [destLatLong, setDestLatLong] = useState("");
-  const [directions, setDirections] = useState(null);
-  const [sourceMarker, setSourceMarker] = useState(null);
-  const [destMarker, setDestMarker] = useState(null);
+  const [sourceText, setSourceText] = useState('');
+  const [destText, setDestText] = useState('');
+  const [sourceCoords, setSourceCoords] = useState(null);
+  const [destCoords, setDestCoords] = useState(null);
+  const [routeCoords, setRouteCoords] = useState([]);
 
-  const handleInputChange = (e, setState) => {
-    setState(e.target.value);
+  const geocode = async (place) => {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${place}`);
+    const data = await response.json();
+    return data.length ? { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) } : null;
   };
 
-  const geocodeAddress = (address, type) => {
-    const geocoder = new window.google.maps.Geocoder();
-    geocoder.geocode({ address: address }, (results, status) => {
-      if (status === "OK") {
-        const latLng = results[0].geometry.location;
-        if (type === "source") {
-          setSourceLatLong(`${latLng.lat()}, ${latLng.lng()}`);
-          setSourceMarker({ position: latLng, title: "Source" });
-        } else if (type === "destination") {
-          setDestLatLong(`${latLng.lat()}, ${latLng.lng()}`);
-          setDestMarker({ position: latLng, title: "Destination" });
-        }
-      } else {
-        alert("Geocode failed: " + status);
-      }
-    });
+  const getRoute = async (src, dest) => {
+    const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${src.lon},${src.lat};${dest.lon},${dest.lat}?overview=full&geometries=geojson`);
+    const data = await res.json();
+    const coords = data.routes[0].geometry.coordinates.map(([lon, lat]) => [lat, lon]);
+    setRouteCoords(coords);
   };
 
-  const calculateRoute = () => {
-    const sourceAddress = document.getElementById("source").value;
-    const destAddress = document.getElementById("destination").value;
-
-    geocodeAddress(sourceAddress, "source");
-    geocodeAddress(destAddress, "destination");
-
-    const directionsService = new window.google.maps.DirectionsService();
-
-    const request = {
-      origin: sourceAddress,
-      destination: destAddress,
-      travelMode: window.google.maps.TravelMode.DRIVING,
-    };
-
-    directionsService.route(request, (result, status) => {
-      if (status === window.google.maps.DirectionsStatus.OK) {
-        setDirections(result);
-      } else {
-        alert("Directions request failed due to " + status);
-      }
-    });
+  const handleRoute = async () => {
+    const src = await geocode(sourceText);
+    const dst = await geocode(destText);
+    if (!src || !dst) {
+      alert('Invalid source or destination');
+      return;
+    }
+    setSourceCoords(src);
+    setDestCoords(dst);
+    setRouteCoords([]);
+    await getRoute(src, dst);
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 py-6">
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 space-y-6">
-        <h1 className="text-2xl font-semibold text-center text-gray-800">Drone Navigation: Source to Destination</h1>
+    <div className="min-h-screen bg-gray-100 py-8 px-4 flex flex-col items-center">
+      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 space-y-6">
+        <h1 className="text-2xl font-bold text-center">Route from Source to Destination</h1>
 
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="source" className="block text-lg text-gray-700">Source Address:</label>
-            <input
-              type="text"
-              id="source"
-              placeholder="Enter source location"
-              className="w-full p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => handleInputChange(e, setSourceLatLong)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="destination" className="block text-lg text-gray-700">Destination Address:</label>
-            <input
-              type="text"
-              id="destination"
-              placeholder="Enter destination location"
-              className="w-full p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onChange={(e) => handleInputChange(e, setDestLatLong)}
-            />
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input
+            type="text"
+            value={sourceText}
+            onChange={(e) => setSourceText(e.target.value)}
+            placeholder="Enter source location"
+            className="border p-3 rounded-lg"
+          />
+          <input
+            type="text"
+            value={destText}
+            onChange={(e) => setDestText(e.target.value)}
+            placeholder="Enter destination location"
+            className="border p-3 rounded-lg"
+          />
           <button
-            onClick={calculateRoute}
-            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-200"
+            onClick={handleRoute}
+            className="bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition"
           >
-            Get Route & Lat/Long
+            Get Route & Lat/Lng
           </button>
         </div>
 
-        <div id="latlong-display" className="space-y-2 text-center">
-          <p className="text-lg text-gray-700">Source Lat/Long: <span className="font-medium">{sourceLatLong}</span></p>
-          <p className="text-lg text-gray-700">Destination Lat/Long: <span className="font-medium">{destLatLong}</span></p>
+        <div className="text-center space-y-2">
+          {sourceCoords && (
+            <p className="text-gray-700">
+              <strong>Source:</strong> {sourceCoords.lat}, {sourceCoords.lon}
+            </p>
+          )}
+          {destCoords && (
+            <p className="text-gray-700">
+              <strong>Destination:</strong> {destCoords.lat}, {destCoords.lon}
+            </p>
+          )}
         </div>
-        
-        <div className="w-full">
-          <LoadScript googleMapsApiKey="AIzaSyBBPubBrFYplv41YMxW0cJwWAC8WO6_o34">
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={defaultCenter}
-              zoom={12}
-            >
-              {sourceMarker && <Marker position={sourceMarker.position} title={sourceMarker.title} />}
-              {destMarker && <Marker position={destMarker.position} title={destMarker.title} />}
-              {directions && <DirectionsRenderer directions={directions} />}
-            </GoogleMap>
-          </LoadScript>
+
+        <div className="w-full h-[400px]">
+          <MapContainer
+            center={sourceCoords || [20.5937, 78.9629]} // India default
+            zoom={5}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <ResizeMap />
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution="&copy; OpenStreetMap contributors"
+            />
+            {sourceCoords && (
+              <Marker position={[sourceCoords.lat, sourceCoords.lon]}>
+                <Popup>Source</Popup>
+              </Marker>
+            )}
+            {destCoords && (
+              <Marker position={[destCoords.lat, destCoords.lon]}>
+                <Popup>Destination</Popup>
+              </Marker>
+            )}
+            {routeCoords.length > 0 && (
+              <Polyline positions={routeCoords} color="blue" />
+            )}
+          </MapContainer>
         </div>
       </div>
     </div>
