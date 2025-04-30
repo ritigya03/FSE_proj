@@ -17,7 +17,7 @@ export default function Navbar() {
     { name: "Architecture", to: "architecture" },
     { name: "Subsystem", to: "subsystem" },
     { name: "Testing Plan", to: "testing-plan" },
-    { name: "About Us", to: "about" },
+  
     { name: "Mini Demo", to: "demo" },
   ]
 

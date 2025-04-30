@@ -12,7 +12,7 @@ const Home = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        Autonomous Drone<br />Navigation System
+        Advanced Autonomous Drone<br />Navigation System
       </motion.h1>
       
       <motion.p
@@ -24,17 +24,9 @@ const Home = () => {
         Elevate your operations with cutting-edge autonomous drone navigation technology
       </motion.p>
       
-      <motion.a
-        href="#"
-        className="inline-block border border-white rounded-full px-6 py-2 text-sm hover:bg-white hover:text-black transition"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-      >
-        Discover More
-      </motion.a>
+    
 
-      <div className="relative w-full mt-[-70px] rounded-lg ">
+      <div className="relative w-full mt-[-90px] rounded-lg ">
         <div className="clip-bubble overflow-hidden ">
           <img
             src={dronevid}

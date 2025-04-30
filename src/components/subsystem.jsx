@@ -7,20 +7,20 @@ const subsystem = () => {
       description: "The sensor subsystem collects data about surroundings (GPS, Camera, LiDAR, etc.) to help the drone understand its environment.",
     },
     {
-      title: "Localization System",
-      description: "The localization subsystem calculates the drone's real-time position using GPS and sensor fusion techniques for precise navigation.",
+      title: "Navigation  & Control",
+      description: "It ensures the drone doesn't just move but moves intelligently by calculating optimal paths and reacting to obstacles and environmental feedback in real time.",
     },
     {
       title: "Path Planning System",
-      description: "The path planning subsystem generates the safest and most efficient path to the destination, considering obstacles and terrain.",
+      description: "Utilizes graph-based algorithms like A* or Dijkstra's Algorithm to compute the most efficient and obstacle-free route from the drone’s current location to its destination.",
     },
     {
-      title: "Obstacle Detection & Avoidance",
-      description: "This subsystem detects obstacles in the drone’s path and updates the route to avoid collisions, ensuring safe travel.",
+      title: "AI Decision Module ",
+      description: "It interprets complex sensory inputs to enable the drone to make intelligent decisions in real time, enhancing both safety and efficiency.",
     },
     {
-      title: "Flight Control System",
-      description: "The flight control subsystem adjusts motor speeds to execute navigation commands, maintaining stability and controlling movement.",
+      title: "Emergency handling",
+      description: "The Emergency Handling Module monitors system health and triggers safety actions or manual override during failures.",
     },
     {
       title: "Communication System",

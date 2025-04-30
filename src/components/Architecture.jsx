@@ -16,7 +16,7 @@ const Architecture = () => {
             {/* Block 1 */}
             <div className="flex flex-col items-center">
               <div className="bg-gray-100 shadow-md rounded-xl p-6 w-64 text-center">
-                <h2 className="text-xl font-semibold">Sensors</h2>
+                <h2 className="text-xl font-semibold">Sensor Data</h2>
                 <p className="text-sm text-gray-600">Collect environmental data (position, obstacles).</p>
               </div>
               <div className="text-2xl ">↓</div>
@@ -25,8 +25,8 @@ const Architecture = () => {
             {/* Block 2 */}
             <div className="flex flex-col items-center">
               <div className="bg-gray-100 shadow-md rounded-xl p-6 w-64 text-center">
-                <h2 className="text-xl font-semibold ">Sensor Fusion & Localization</h2>
-                <p className="text-sm text-gray-600">Combine sensor data to estimate real-time position.</p>
+                <h2 className="text-xl font-semibold ">Navigation Decision</h2>
+                <p className="text-sm text-gray-600">Processes sensor input to decide the drone’s next move.</p>
               </div>
               <div className="text-2xl ">↓</div>
             </div>
@@ -34,7 +34,7 @@ const Architecture = () => {
             {/* Block 3 */}
             <div className="flex flex-col items-center">
               <div className="bg-gray-100 shadow-md rounded-xl p-6 w-64 text-center">
-                <h2 className="text-xl font-semibold ">Path Planning & Obstacle Avoidance</h2>
+                <h2 className="text-xl font-semibold ">AI Enhancement </h2>
                 <p className="text-sm text-gray-600">Plan safe paths and avoid obstacles in real-time.</p>
               </div>
               <div className="text-2xl ">↓</div>
@@ -43,7 +43,7 @@ const Architecture = () => {
             {/* Block 4 */}
             <div className="flex flex-col items-center">
               <div className="bg-gray-100 shadow-md rounded-xl p-6 w-64 text-center">
-                <h2 className="text-xl font-semibold ">Flight Controller</h2>
+                <h2 className="text-xl font-semibold ">Control System</h2>
                 <p className="text-sm text-gray-600">Control motors and adjust drone movement.</p>
               </div>
               <div className="text-2xl ">↓</div>
@@ -52,8 +52,8 @@ const Architecture = () => {
             {/* Block 5 */}
             <div className="flex flex-col items-center">
               <div className="bg-gray-100 shadow-md rounded-xl p-6 w-64 text-center">
-                <h2 className="text-xl font-semibold ">Motors & Drone Movement</h2>
-                <p className="text-sm text-gray-600">Execute navigation commands and move the drone.</p>
+                <h2 className="text-xl font-semibold ">Ground Station Feedback​</h2>
+                <p className="text-sm text-gray-600">Displays drone status and allows remote control commands.</p>
               </div>
             </div>
 
