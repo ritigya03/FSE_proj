@@ -64,7 +64,10 @@ const Architecture = () => {
         <div className="md:w-1/3 p-8 flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-blue-100">
           <h2 className="text-3xl font-bold mb-6 text-center">Want to see more?</h2>
           <button className="bg-black text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300">
-            View Graphs & Stats
+          <a href="https://lnmiit-my.sharepoint.com/:p:/g/personal/23ucs629_lnmiit_ac_in/ES0R-1tgCnJDrwdX0w2i3XsBL5jTj1nDubyIMLOMPdGOyQ?rtime=NFp75X-I3Ug" target="_blank" rel="noopener noreferrer">
+  <button>View Graphs & Stats</button>
+</a>
+
           </button>
         </div>
 

@@ -38,7 +38,10 @@ const subsystem = () => {
             <h2 className="text-2xl font-semibold mb-4">{subsystem.title}</h2>
             <p className="text-gray-700 mb-4">{subsystem.description}</p>
             <button className="bg-black  hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300">
-              Learn More
+            <a href="https://lnmiit-my.sharepoint.com/:p:/g/personal/23ucs629_lnmiit_ac_in/ES0R-1tgCnJDrwdX0w2i3XsBL5jTj1nDubyIMLOMPdGOyQ?rtime=NFp75X-I3Ug" target="_blank" rel="noopener noreferrer">
+  <button>Learn More</button>
+</a>
+
             </button>
           </div>
         ))}
